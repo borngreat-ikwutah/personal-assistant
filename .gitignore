@@ -3,3 +3,10 @@ node_modules/
 
 # wrangler local state
 .wrangler/
+
+# local environment files (secrets — never commit)
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
