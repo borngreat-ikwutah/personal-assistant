@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "strict": true,
-    "types": ["bun"],
+    "types": [],
+    "lib": ["ES2023"],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"
-  }
+  },
+  "include": ["src", "worker-configuration.d.ts"]
 }
