@@ -1,0 +1,8 @@
+// Cloudflare Workers configuration
+// https://developers.cloudflare.com/workers/wrangler/configuration/
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "personal-assistant",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-06",
+}
