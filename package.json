@@ -10,6 +10,7 @@
     "hono": "^4.13.16"
   },
   "devDependencies": {
+    "@hono/cli": "^1.0.0-rc.9",
     "wrangler": "^4.158.0"
   }
 }
