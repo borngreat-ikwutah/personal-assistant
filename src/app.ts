@@ -1,7 +1,6 @@
 import { Hono } from 'hono'
 
 import { baseRoutes } from './routes/base'
-import { marcoRoutes } from './routes/marco'
 import { envRoutes } from './routes/env'
 import { telegramRoutes } from './routes/telegram'
 
@@ -13,7 +12,6 @@ const app = new Hono<{ Bindings: Env }>()
  */
 const routes = app
   .route('/', baseRoutes)
-  .route('/', marcoRoutes)
   .route('/', envRoutes)
   .route('/', telegramRoutes)
   .notFound((c) => c.json({ ok: false, error: 'not found' }, 404))
