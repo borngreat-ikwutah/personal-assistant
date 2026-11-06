@@ -16,10 +16,12 @@ src/
   app.ts          → creates the Hono instance, mounts route modules in one chained
                     `routes`, declares notFound/onError, exports AppType + default
   routes/*.ts     → one module per slice; each exports a chained `new Hono<{ Bindings: Env }>()`
+  routes/messaging/     → messaging integrations (e.g. Telegram webhook)
+  routes/ai/            → AI assistant endpoints (namespace reserved; README of record)
 ```
 
 - Route modules declare their **full final paths** internally and are mounted via `app.route('/', module)` — do not split a path between the mount point and the module, it breaks the RPC type contract.
-- New slices follow this file layout: add `src/routes/<name>.ts` and one `.route('/', …)` line in `app.ts`. Never register a handler directly in `app.ts`, and never let `index.ts` grow beyond the re-export.
+- New slices follow this file layout: add `src/routes/<name>.ts` (or, for messaging/AI slices, `src/routes/messaging/<name>.ts` / `src/routes/ai/<name>.ts` — categorize by slice, never drop new modules in bare `src/routes/*` for those categories) and one `.route('/', …)` line in `app.ts`. Never register a handler directly in `app.ts`, and never let `index.ts` grow beyond the re-export.
 - Shared non-route logic (Telegram bot calls, external API clients) never lives inside a route module beyond the call site of a single module — extract to a module-scoped function first, promote to `src/lib/` when a second module needs it.
 
 ## Hono Strictness Rules (no lazy typing)

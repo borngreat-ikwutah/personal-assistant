@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
 
 import { baseRoutes } from './routes/base'
+import { telegramRoutes } from './routes/messaging/telegram'
 import { envRoutes } from './routes/env'
-import { telegramRoutes } from './routes/telegram'
 
 const app = new Hono<{ Bindings: Env }>()
 
