@@ -41,8 +41,27 @@ const echoMessage = async (
   return res.ok
 }
 
+// Constant-time comparison so webhook secret validation doesn't leak secrets
+// through timing.
+const secretsMatch = (a: string, b: string): boolean => {
+  if (a.length !== b.length) return false
+  let diff = 0
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  }
+  return diff === 0
+}
+
 export const telegramRoutes = new Hono<{ Bindings: Env }>()
   .post('/telegram/webhook', zValidator('json', updateSchema), async (c) => {
+    // Per Bot API 9.x-10.x: when setWebhook is called with `secret_token`,
+    // every webhook request carries that value in this header. Reject anything
+    // else — it didn't come from Telegram.
+    const secretHeader = c.req.header('X-Telegram-Bot-Api-Secret-Token')
+    if (!secretHeader || !secretsMatch(secretHeader, c.env.API_SECRET)) {
+      return c.json({ ok: false, error: 'unauthorized' }, 401)
+    }
+
     const botToken = c.env.TELEGRAM_BOT_TOKEN
     const update = c.req.valid('json')
 
