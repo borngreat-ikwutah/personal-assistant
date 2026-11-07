@@ -1,6 +1,9 @@
 # deps
 node_modules/
 
+# trigger.dev generated dir
+.trigger/
+
 # wrangler local state
 .wrangler/
 

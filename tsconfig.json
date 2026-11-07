@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "strict": true,
+    "skipLibCheck": true,
     "types": [],
     "lib": ["ES2023"],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"
   },
-  "include": ["src", "worker-configuration.d.ts"]
+  "include": ["src", "worker-configuration.d.ts", "trigger.config.ts"]
 }

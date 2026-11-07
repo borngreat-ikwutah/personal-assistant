@@ -38,3 +38,8 @@ These rules are hard requirements, not preferences. Contravention is failure.
 6. **`strict: true` stays.** The tsconfig's `strict` flag, `lib: ["ES2023"]`, `types: []`, and `worker-configuration.d.ts` are the typing contract for this project — do not weaken or add overlapping type sources.
 7. **Verify the type contract alongside routes.** In addition to the API Route Verification Rule, whenever route or binding types change: (a) `bunx tsc --noEmit` must pass with zero errors relating to route/env types, and (b) update any `expect` steps in `hono batch` that assert response shape so they check the real (typed) response, not a loosened match.
 
+<!-- TRIGGER.DEV SKILLS START -->
+## Trigger.dev agent skills
+
+This project has Trigger.dev agent skills installed in `.agents/skills/`. Before writing or changing Trigger.dev code (background tasks, scheduled tasks, realtime, or chat.agent AI agents), load the most relevant skill: `trigger-authoring-chat-agent`, `trigger-realtime-and-frontend`, `trigger-cost-savings`, `trigger-chat-agent-advanced`, `trigger-authoring-tasks`.
+<!-- TRIGGER.DEV SKILLS END -->
