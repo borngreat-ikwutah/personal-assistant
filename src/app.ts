@@ -3,6 +3,7 @@ import { Hono } from 'hono'
 import { baseRoutes } from './routes/base'
 import { telegramRoutes } from './routes/messaging/telegram'
 import { envRoutes } from './routes/env'
+import { testGenerateRoutes } from './routes/ai/test-generate'
 
 const app = new Hono<{ Bindings: Env }>()
 
@@ -14,6 +15,7 @@ const routes = app
   .route('/', baseRoutes)
   .route('/', envRoutes)
   .route('/', telegramRoutes)
+  .route('/', testGenerateRoutes) // TEMPORARY public test endpoint (see module) — remove later
   .notFound((c) => c.json({ ok: false, error: 'not found' }, 404))
   .onError((err, c) => {
     console.error('unhandled error:', err)
