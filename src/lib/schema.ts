@@ -88,9 +88,36 @@ export const config = sqliteTable('config', {
   value: text('value'),
 })
 
+export const cvDocuments = sqliteTable('cv_documents', {
+  id: text('id').primaryKey(),
+  currentVersionId: integer('current_version_id'),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+})
+
+export const cvVersions = sqliteTable(
+  'cv_versions',
+  {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    documentId: text('document_id')
+      .notNull()
+      .references(() => cvDocuments.id),
+    objectKey: text('object_key').notNull().unique(),
+    originalFilename: text('original_filename').notNull(),
+    contentType: text('content_type').notNull(),
+    sizeBytes: integer('size_bytes').notNull(),
+    sha256: text('sha256').notNull(),
+    idempotencyKey: text('idempotency_key').notNull().unique(),
+    createdAt: text('created_at').notNull(),
+  },
+  (t) => [check('cv_versions_size_check', sql`${t.sizeBytes} BETWEEN 1 AND 10485760`)],
+)
+
 export type Listing = typeof listings.$inferSelect
 export type NewListing = typeof listings.$inferInsert
 export type Application = typeof applications.$inferSelect
 export type NewApplication = typeof applications.$inferInsert
 export type Reply = typeof replies.$inferSelect
 export type ConfigRow = typeof config.$inferSelect
+export type CvDocument = typeof cvDocuments.$inferSelect
+export type CvVersion = typeof cvVersions.$inferSelect
