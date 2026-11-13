@@ -1,11 +1,12 @@
 import { Hono } from 'hono'
 
 import { baseRoutes } from './routes/base'
+import { browserRoutes } from './routes/browser'
 import { telegramRoutes } from './routes/messaging/telegram'
 import { envRoutes } from './routes/env'
 import { applicationRoutes } from './routes/applications'
-import { testGenerateRoutes } from './routes/ai/test-generate'
 import { cvRoutes } from './routes/cv'
+import { freehireRoutes } from './routes/freehire'
 
 const app = new Hono<{ Bindings: Env }>()
 
@@ -17,9 +18,10 @@ const routes = app
   .route('/', baseRoutes)
   .route('/', envRoutes)
   .route('/', applicationRoutes)
+  .route('/', browserRoutes)
   .route('/', cvRoutes)
+  .route('/', freehireRoutes)
   .route('/', telegramRoutes)
-  .route('/', testGenerateRoutes) // TEMPORARY public test endpoint (see module) — remove later
   .notFound((c) => c.json({ ok: false, error: 'not found' }, 404))
   .onError((err, c) => {
     console.error('unhandled error:', err)

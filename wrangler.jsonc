@@ -5,6 +5,7 @@
   "name": "personal-assistant",
   "main": "src/index.ts",
   "compatibility_date": "2026-11-06",
+  "minify": true,
   "vars": {
     "APP_NAME": "personal-assistant"
   },

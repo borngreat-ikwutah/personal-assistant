@@ -9,10 +9,14 @@
   "dependencies": {
     "@ai-sdk/openai-compatible": "^3.0.86",
     "@hono/zod-validator": "^0.9.1",
+    "@modelcontextprotocol/sdk": "1.32.2",
     "@trigger.dev/sdk": "4.8.3",
     "ai": "^7.0.164",
     "drizzle-orm": "^0.45.4",
+    "freehire-mcp": "0.8.0",
     "hono": "^4.13.16",
+    "playwright": "^1.65.0",
+    "undici": "^8.12.4",
     "zod": "^4.6.7"
   },
   "devDependencies": {
