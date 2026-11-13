@@ -11,12 +11,15 @@
     "@hono/zod-validator": "^0.9.1",
     "@trigger.dev/sdk": "4.8.3",
     "ai": "^7.0.164",
+    "drizzle-orm": "^0.45.4",
     "hono": "^4.13.16",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@hono/cli": "^1.0.0-rc.9",
     "@trigger.dev/build": "4.8.3",
+    "drizzle-kit": "^0.31.11",
+    "typescript": "^5.9.3",
     "wrangler": "^4.158.0"
   }
 }

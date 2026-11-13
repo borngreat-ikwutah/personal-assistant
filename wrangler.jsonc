@@ -8,6 +8,13 @@
   "vars": {
     "APP_NAME": "personal-assistant"
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "personal-assistant",
+      "database_id": "1b830555-8e89-4286-8c19-3b2268783815"
+    }
+  ],
   "secrets": {
     "required": ["API_SECRET", "TELEGRAM_BOT_TOKEN"]
   }
