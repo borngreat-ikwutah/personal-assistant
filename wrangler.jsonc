@@ -23,6 +23,12 @@
     }
   ],
   "secrets": {
-    "required": ["API_SECRET", "TELEGRAM_BOT_TOKEN"]
+    "required": [
+      "API_SECRET",
+      "TELEGRAM_BOT_TOKEN",
+      "TELEGRAM_WEBHOOK_SECRET",
+      "TELEGRAM_CHAT_ID",
+      "TRIGGER_SECRET_KEY"
+    ]
   }
 }
