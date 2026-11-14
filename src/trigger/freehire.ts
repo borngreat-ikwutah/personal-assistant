@@ -10,6 +10,7 @@ import {
   trackFreehireJob,
 } from '../lib/freehire-mcp'
 import { FreehireIngestionError, ingestFreehireListings } from '../lib/freehire-ingestion-client'
+import { formatTelegramJobResults, sendTelegramMessage } from '../lib/telegram'
 
 interface TriggerNodeEnv {
   process?: { env?: Record<string, string | undefined> }
@@ -68,6 +69,7 @@ const searchSchema = z
     limit: z.number().int().min(1).max(50).default(10),
     skills: freehireSkillsSchema.optional(),
     filters: freehireFiltersSchema.default({}),
+    telegramChatId: z.number().int().optional(),
   })
   .strict()
 
@@ -77,6 +79,16 @@ export const searchFreehireTask = schemaTask({
   maxDuration: 180,
   retry: taskRetry,
   queue: { concurrencyLimit: 2 },
+  onFailure: async ({ payload }) => {
+    if (payload.telegramChatId === undefined) return
+    const botToken = getEnv().TELEGRAM_BOT_TOKEN
+    if (!botToken) return
+    await sendTelegramMessage(
+      botToken,
+      payload.telegramChatId,
+      'The Freehire search failed. Please try again later.',
+    )
+  },
   run: async (payload) =>
     runProviderOperation(async () => {
       const search = await searchFreehire(getMcpConfig(), payload)
@@ -87,7 +99,7 @@ export const searchFreehireTask = schemaTask({
           ? await ingestFreehireListings(search.jobs, getIngestionConfig())
           : { inserted: 0, updated: 0, items: [] }
 
-      return {
+      const output = {
         query: payload.query,
         total: search.total,
         ignored: search.ignored,
@@ -97,6 +109,21 @@ export const searchFreehireTask = schemaTask({
         updated: persistence.updated,
         persistenceSkipped: hasProviderWarnings,
       }
+
+      if (payload.telegramChatId !== undefined) {
+        const botToken = getEnv().TELEGRAM_BOT_TOKEN
+        if (!botToken) {
+          throw new AbortTaskRunError('Telegram bot token is not configured')
+        }
+        const sent = await sendTelegramMessage(
+          botToken,
+          payload.telegramChatId,
+          formatTelegramJobResults(payload.query, search.total, search.jobs),
+        )
+        if (!sent) throw new AbortTaskRunError('Telegram failed to deliver job results')
+      }
+
+      return output
     }),
 })
 
